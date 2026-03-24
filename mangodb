@@ -1,0 +1,54 @@
+// Switch to test database
+use test
+
+// Insert initial students
+db.students.insertMany([
+  { name: "Ram", age: 20, course: "BCA" },
+  { name: "Shyam", age: 17, course: "BBA" },
+  { name: "Sita", age: 19, course: "BSc" },
+  { name: "Gita", age: 18, course: "BA" },
+  { name: "Hari", age: 22, course: "BCom" }
+])
+
+// Insert additional students with grades
+db.students.insertMany([
+  { name: "Ram", age: 19, grade: "A" },
+  { name: "Sita", age: 21, grade: "B" },
+  { name: "Shyam", age: 18, grade: "A" }
+])
+
+// Find all students
+db.students.find().pretty()
+
+// Find students with age > 18
+db.students.find({ age: { $gt: 18 } }).pretty()
+
+// Update Shyam's age to 18
+db.students.updateOne({ name: "Shyam" }, { $set: { age: 18 } })
+
+// Delete Gita
+db.students.deleteOne({ name: "Gita" })
+
+// Update students with age < 20 to grade "C"
+db.students.updateMany({ age: { $lt: 20 } }, { $set: { grade: "C" } })
+
+// Delete student named Ram (the one with course)
+db.students.deleteOne({ name: "Ram" })
+
+// Delete all students with grade "C"
+db.students.deleteMany({ grade: "C" })
+
+// Count all remaining students
+db.students.countDocuments()
+
+// Count students with grade "A"
+db.students.countDocuments({ grade: "A" })
+
+// Update all remaining students to set city
+db.students.updateMany({}, { $set: { city: "Kathmandu" } })
+
+// Delete students with age > 21
+db.students.deleteMany({ age: { $gt: 21 } })
+
+// Show final students
+db.students.find().pretty()
